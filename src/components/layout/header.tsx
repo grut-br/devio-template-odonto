@@ -24,13 +24,13 @@ export default function Header() {
           <Link href="/#inicio" className="text-sm font-semibold text-slate-650 hover:text-blue-900 hover:scale-[1.02] transition-all">
             Início
           </Link>
-          <Link href="/#tratamentos" className="text-sm font-semibold text-slate-650 hover:text-blue-900 hover:scale-[1.02] transition-all">
+          <Link href="/tratamentos" className="text-sm font-semibold text-slate-650 hover:text-blue-900 hover:scale-[1.02] transition-all">
             Tratamentos
           </Link>
-          <Link href="/#corpo-clinico" className="text-sm font-semibold text-slate-650 hover:text-blue-900 hover:scale-[1.02] transition-all">
+          <Link href="/corpo-clinico" className="text-sm font-semibold text-slate-650 hover:text-blue-900 hover:scale-[1.02] transition-all">
             Corpo Clínico
           </Link>
-          <Link href="/#convenios" className="text-sm font-semibold text-slate-650 hover:text-blue-900 hover:scale-[1.02] transition-all">
+          <Link href="/convenios" className="text-sm font-semibold text-slate-650 hover:text-blue-900 hover:scale-[1.02] transition-all">
             Convênios
           </Link>
         </nav>

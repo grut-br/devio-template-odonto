@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { equipeMock } from "@/lib/mock-data";
 import { ArrowRight, UserCheck } from "lucide-react";
 
@@ -6,19 +9,42 @@ export default function TeamSection() {
   // Exibiremos os profissionais cadastrados
   const mainTeam = equipeMock.slice(0, 3);
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as const },
+    },
+  };
+
   return (
     <section id="corpo-clinico" className="bg-white py-20 lg:py-28 scroll-mt-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* Title */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4"
+        >
           <div className="max-w-3xl">
             <h2 className="text-3xl font-extrabold tracking-tight text-blue-900 sm:text-4xl">
-              {/* EDITAR: Título Seção */}
               Nossos Especialistas
             </h2>
-            <p className="mt-4 text-lg text-slate-650 leading-relaxed">
-              {/* EDITAR: Subtítulo Seção */}
+            <p className="mt-4 text-lg text-slate-655 leading-relaxed">
               Conheça os profissionais que transformam sorrisos com técnicas avançadas e cuidado humanizado.
             </p>
           </div>
@@ -31,21 +57,31 @@ export default function TeamSection() {
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-        </div>
+        </motion.div>
 
         {/* Grid do Corpo Clínico */}
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto"
+        >
           {mainTeam.map((doctor) => (
-            <div
+            <motion.div
               key={doctor.id}
-              className="group relative overflow-hidden rounded-2xl border border-slate-100 bg-slate-50/50 p-4 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
+              variants={itemVariants}
+              whileHover={{ y: -6 }}
+              className="group relative overflow-hidden rounded-2xl border border-slate-100 bg-slate-50/50 p-4 shadow-sm hover:shadow-md transition-all duration-300"
             >
               {/* Imagem do Profissional */}
               <div className="overflow-hidden rounded-xl aspect-[3/4] w-full bg-slate-200 relative mb-6">
-                <img
+                <motion.img
                   src={doctor.foto}
                   alt={doctor.nome}
-                  className="h-full w-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.4 }}
+                  className="h-full w-full object-cover object-center"
                   loading="lazy"
                 />
               </div>
@@ -63,11 +99,12 @@ export default function TeamSection() {
                   <span>{doctor.cro}</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
       </div>
     </section>
   );
 }
+

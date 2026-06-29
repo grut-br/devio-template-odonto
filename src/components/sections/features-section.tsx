@@ -1,4 +1,8 @@
+"use client";
+
+import { motion } from "framer-motion";
 import { Cpu, Sparkles, Smile } from "lucide-react";
+import { SpotlightCard } from "@/components/ui/spotlight-card";
 
 export default function FeaturesSection() {
   const features = [
@@ -19,48 +23,81 @@ export default function FeaturesSection() {
     },
   ];
 
+  // Variantes para reveal ao scroll
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as const },
+    },
+  };
+
   return (
     <section className="bg-white py-20 lg:py-28 border-y border-slate-100">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* Title */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-3xl mx-auto mb-16"
+        >
           <h2 className="text-3xl font-extrabold tracking-tight text-blue-900 sm:text-4xl">
-            {/* EDITAR: Título de Diferenciais */}
             Por que escolher a OralElite?
           </h2>
-          <p className="mt-4 text-lg text-slate-650 leading-relaxed">
-            {/* EDITAR: Subtítulo de Diferenciais */}
+          <p className="mt-4 text-lg text-slate-600 leading-relaxed">
             Investimos no que há de mais moderno na odontologia mundial para garantir que o seu tratamento seja rápido, altamente estético e, acima de tudo, confortável.
           </p>
-        </div>
+        </motion.div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3"
+        >
           {features.map((feature, index) => {
             const Icon = feature.icon;
             return (
-              <div
+              <motion.div
                 key={index}
-                className="relative rounded-2xl border border-slate-100 bg-slate-50/50 p-8 shadow-sm hover:shadow-md hover:border-slate-200 transition-all duration-300 group hover:-translate-y-1"
+                variants={cardVariants}
+                whileHover={{ y: -6 }}
+                className="h-full"
               >
-                <div className="inline-flex rounded-xl bg-blue-900 p-3 text-amber-500 shadow-sm group-hover:scale-110 transition-transform duration-300">
-                  <Icon className="h-6 w-6" />
-                </div>
-                <h3 className="mt-6 text-xl font-bold text-slate-900">
-                  {/* EDITAR: Título do Diferencial */}
-                  {feature.title}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-slate-650">
-                  {/* EDITAR: Descrição do Diferencial */}
-                  {feature.description}
-                </p>
-              </div>
+                <SpotlightCard className="h-full flex flex-col justify-start items-start bg-slate-50/50">
+                  <div className="inline-flex rounded-xl bg-blue-900 p-3 text-amber-500 shadow-sm transition-transform duration-300">
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="mt-6 text-xl font-bold text-slate-900">
+                    {feature.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                    {feature.description}
+                  </p>
+                </SpotlightCard>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
 
       </div>
     </section>
   );
 }
+
